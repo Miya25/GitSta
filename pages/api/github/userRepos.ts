@@ -3,7 +3,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 const API_BASE_URL = "https://api.github.com";
 
 async function fetchWithAuth(url: string, token?: string) {
-  const headers: Record<string, string> = token ? { Authorization: `token ${token}` } : {};
+  const headers: Record<string, string> = token
+    ? { Authorization: `token ${token}` }
+    : {};
   const response = await fetch(url, { headers });
 
   if (!response.ok) {
@@ -12,7 +14,10 @@ async function fetchWithAuth(url: string, token?: string) {
   return response.json();
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { username, token } = req.query;
 
   if (!username || typeof username !== "string") {
@@ -20,7 +25,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const repos = await fetchWithAuth(`${API_BASE_URL}/users/${username}/repos?per_page=100`, token as string);
+    const repos = await fetchWithAuth(
+      `${API_BASE_URL}/users/${username}/repos?per_page=100`,
+      token as string,
+    );
     res.status(200).json(repos);
   } catch (error: unknown) {
     if (error instanceof Error) {

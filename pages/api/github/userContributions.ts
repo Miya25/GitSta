@@ -16,7 +16,9 @@ interface ContributionData {
 }
 
 async function fetchWithAuth(url: string, token?: string) {
-  const headers: Record<string, string> = token ? { Authorization: `token ${token}` } : {};
+  const headers: Record<string, string> = token
+    ? { Authorization: `token ${token}` }
+    : {};
   const response = await fetch(url, { headers });
 
   if (!response.ok) {
@@ -25,7 +27,10 @@ async function fetchWithAuth(url: string, token?: string) {
   return response.json();
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   const { username, token } = req.query;
 
   if (!username || typeof username !== "string") {
@@ -35,16 +40,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     const events: GitHubEvent[] = await fetchWithAuth(
       `${API_BASE_URL}/users/${username}/events?per_page=100`,
-      token as string
+      token as string,
     );
 
     const pushEvents = events.filter((event) => event.type === "PushEvent");
 
-    const contributions = pushEvents.reduce<Record<string, number>>((acc, event) => {
-      const date = new Date(event.created_at).toISOString().split("T")[0];
-      acc[date] = (acc[date] || 0) + event.payload.commits.length;
-      return acc;
-    }, {});
+    const contributions = pushEvents.reduce<Record<string, number>>(
+      (acc, event) => {
+        const date = new Date(event.created_at).toISOString().split("T")[0];
+        acc[date] = (acc[date] || 0) + event.payload.commits.length;
+        return acc;
+      },
+      {},
+    );
 
     const contributionData: ContributionData[] = Object.entries(contributions)
       .map(([date, commits]) => ({ date, commits }))

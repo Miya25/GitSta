@@ -1,9 +1,17 @@
-"use client"
+"use client";
 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 interface ContributionsChartProps {
-  data: { date: string; commits: number }[]
+  data: { date: string; commits: number }[];
 }
 
 export function ContributionsChart({ data }: ContributionsChartProps) {
@@ -32,6 +40,5 @@ export function ContributionsChart({ data }: ContributionsChartProps) {
         />
       </LineChart>
     </ResponsiveContainer>
-  )
+  );
 }
-

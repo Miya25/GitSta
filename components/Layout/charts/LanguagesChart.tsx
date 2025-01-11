@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts"
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 
 interface LanguagesChartProps {
-  data: { name: string; value: number }[]
+  data: { name: string; value: number }[];
 }
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"]
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884D8"];
 
 export function LanguagesChart({ data }: LanguagesChartProps) {
   return (
@@ -31,6 +31,5 @@ export function LanguagesChart({ data }: LanguagesChartProps) {
         />
       </PieChart>
     </ResponsiveContainer>
-  )
+  );
 }
-
